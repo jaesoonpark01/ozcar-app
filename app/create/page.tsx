@@ -60,14 +60,15 @@ export default function CreateListing() {
             alert(t("create.submit") + " Success!");
             router.push("/dashboard");
 
-        } catch (error: any) {
-            console.error("Minting Error:", error);
-            if (error.code === "ACTION_REJECTED") {
+        } catch (error: unknown) {
+            const err = error as any;
+            console.error("Minting Error:", err);
+            if (err.code === "ACTION_REJECTED") {
                 alert("Transaction rejected by user.");
-            } else if (error.code === -32603 || error.message?.includes("Internal JSON-RPC error")) {
+            } else if (err.code === -32603 || err.message?.includes("Internal JSON-RPC error")) {
                 alert("Wallet Error: Please reset your wallet nonce.\nMetaMask: Settings > Advanced > Clear activity tab data.");
             } else {
-                alert("Error creating listing: " + (error.reason || error.message));
+                alert("Error creating listing: " + (err.reason || err.message));
             }
         } finally {
             setLoading(false);

@@ -161,11 +161,12 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
                     const signer = await _provider.getSigner();
                     await initContracts(signer, accounts[0]);
                 }
-            } catch (error: any) {
-                if (error.code === 4001) {
+            } catch (error: unknown) {
+                const err = error as any;
+                if (err.code === 4001) {
                     console.log("User rejected connection");
                 } else {
-                    console.error("Connection failed", error);
+                    console.error("Connection failed", err);
                 }
             } finally {
                 isConnecting.current = false;

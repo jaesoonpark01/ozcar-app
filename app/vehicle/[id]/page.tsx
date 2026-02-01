@@ -62,9 +62,9 @@ export default function VehicleDetail() {
             );
             await tx.wait();
             loadData();
-        } catch (e: any) {
+        } catch (e: unknown) {
             console.error(e);
-            alert("Error: " + e.message);
+            alert("Error: " + (e as any).message);
         } finally { setLoading(false); }
     }
 
@@ -75,7 +75,7 @@ export default function VehicleDetail() {
             const tx = await ozcarEscrow.deposit(escrow.escrowId, { value: escrow.price });
             await tx.wait();
             loadData();
-        } catch (e: any) { console.error(e); alert(e.message); } finally { setLoading(false); }
+        } catch (e: unknown) { console.error(e); alert((e as any).message); } finally { setLoading(false); }
     };
 
     const confirmDelivery = async () => {
@@ -85,7 +85,7 @@ export default function VehicleDetail() {
             const tx = await ozcarEscrow.confirmDelivery(escrow.escrowId);
             await tx.wait();
             loadData();
-        } catch (e: any) { console.error(e); alert(e.message); } finally { setLoading(false); }
+        } catch (e: unknown) { console.error(e); alert((e as any).message); } finally { setLoading(false); }
     };
 
     if (!metadata) return <div className="p-10">{t("detail.loading")}</div>;
