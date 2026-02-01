@@ -1,4 +1,4 @@
-// components/marketplace/VehicleCard.tsx
+//  omponents/marketplace/VehicleCard.tsx 
 "use client";
 
 import React from 'react';
