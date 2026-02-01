@@ -162,7 +162,7 @@ export default function TechnicianProfilePage() {
                                                 {[...Array(review.rating)].map((_, i) => <Star key={i} className="w-3 h-3 text-yellow-500 fill-yellow-500" />)}
                                             </div>
                                         </div>
-                                        <p className="text-slate-600 font-medium leading-relaxed italic">"{review.comment}"</p>
+                                        <p className="text-slate-600 font-medium leading-relaxed italic">&quot;{review.comment}&quot;</p>
                                     </div>
                                 ))}
                             </div>

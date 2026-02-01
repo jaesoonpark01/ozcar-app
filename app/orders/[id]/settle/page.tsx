@@ -107,7 +107,7 @@ export default function finalSignOffPage() {
                         </div>
                         <div>
                             <h2 className="text-4xl font-black text-slate-900 mb-2">Settlement Complete</h2>
-                            <p className="text-slate-500 font-medium">Funds have been released to the participants' wallets.</p>
+                            <p className="text-slate-500 font-medium">Funds have been released to the participants&apos; wallets.</p>
                         </div>
 
                         <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100 text-left space-y-4">

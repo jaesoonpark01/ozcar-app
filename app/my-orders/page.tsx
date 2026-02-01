@@ -20,7 +20,7 @@ export default function MyOrdersPage() {
     const { t, lang } = useI18n();
     const [orders, setOrders] = useState<Order[]>([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [statusMap, setStatusMap] = useState<any>({});
+    const [statusMap, setStatusMap] = useState<{ [key: number]: string }>({});
 
     useEffect(() => {
         async function fetchMyOrders() {
@@ -35,7 +35,7 @@ export default function MyOrdersPage() {
 
                 const myOrders: Order[] = [];
                 for (const event of events) {
-                    const id = Number((event as any).args.escrowId);
+                    const id = Number((event as unknown as { args: { escrowId: string } }).args.escrowId);
                     const escrowData = await ozcarEscrow.escrows(id);
 
                     myOrders.push({

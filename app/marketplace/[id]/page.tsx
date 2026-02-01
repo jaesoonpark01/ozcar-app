@@ -222,10 +222,10 @@ export default function VehicleDetailPage() {
 
                     <div className="p-10 bg-blue-50 rounded-[3rem] border border-blue-100 relative group overflow-hidden">
                         <h3 className="font-black text-slate-900 mb-4 flex items-center gap-2">
-                            Seller's Insight <Zap className="w-4 h-4 text-[#0052FF]" />
+                            Seller&apos;s Insight <Zap className="w-4 h-4 text-[#0052FF]" />
                         </h3>
                         <p className="text-slate-600 font-medium leading-[1.6]">
-                            "{vehicle.description}"
+                            &quot;{vehicle.description}&quot;
                         </p>
                     </div>
 
@@ -250,7 +250,7 @@ export default function VehicleDetailPage() {
                                         <span className="text-xs font-black text-slate-800">{review.user}</span>
                                         <span className="text-[10px] font-bold text-slate-400 opacity-60">Verified Buyer</span>
                                     </div>
-                                    <p className="text-xs text-slate-600 font-medium italic">"{review.text}"</p>
+                                    <p className="text-xs text-slate-600 font-medium italic">&quot;{review.text}&quot;</p>
                                 </div>
                             ))}
                         </div>

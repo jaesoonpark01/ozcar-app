@@ -8,13 +8,25 @@ import { useSearchParams } from 'next/navigation';
 import { Search, History, ExternalLink, Activity } from 'lucide-react';
 import { useI18n } from '../../hooks/useI18n';
 
+interface VehicleRecord {
+    type: string;
+    timestamp: string;
+    tokenUri: string;
+    owner?: string;
+    technician?: string;
+    mileage?: string | number;
+    description?: string;
+    txHash?: string;
+    vin?: string;
+}
+
 function ExplorerContent() {
     const searchParams = useSearchParams();
     const { t } = useI18n();
     const initialVin = searchParams.get('vin') || '';
 
     const [vin, setVin] = useState(initialVin);
-    const [history, setHistory] = useState<any[]>([]);
+    const [history, setHistory] = useState<VehicleRecord[]>([]);
     const [status, setStatus] = useState<'IDLE' | 'SEARCHING' | 'FOUND' | 'NOT_FOUND'>('IDLE');
 
     useEffect(() => {
@@ -151,7 +163,7 @@ function ExplorerContent() {
 
                                     {record.description && (
                                         <div className="mb-8 p-6 bg-slate-50 rounded-2xl text-slate-600 font-medium italic border-l-4 border-slate-200">
-                                            "{record.description}"
+                                            &quot;{record.description}&quot;
                                         </div>
                                     )}
 

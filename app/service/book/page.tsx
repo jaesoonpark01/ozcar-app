@@ -7,11 +7,23 @@ import { useWeb3 } from '../../../components/Web3Provider';
 import { Search, MapPin, Star, ShieldCheck, Calendar, Clock, ChevronRight, Zap } from 'lucide-react';
 import Link from 'next/link';
 
+interface Technician {
+    id: string;
+    name: string;
+    address: string;
+    rating: number;
+    reputation: number;
+    specialties: string[];
+    price: string;
+    location: string;
+    handle?: string;
+}
+
 export default function ServiceBookingPage() {
     const { account } = useWeb3();
     const [searchQuery, setSearchQuery] = useState('');
     const [step, setStep] = useState<'SELECT_TECH' | 'BOOK_DETAIL' | 'CONFIRMED'>('SELECT_TECH');
-    const [selectedTech, setSelectedTech] = useState<any>(null);
+    const [selectedTech, setSelectedTech] = useState<Technician | null>(null);
 
     // Mock Technicians
     const technicians = [
@@ -172,7 +184,7 @@ export default function ServiceBookingPage() {
                                 <span className="text-[10px] font-black uppercase tracking-[0.3em] opacity-60 mb-8 block">Your Authorization Code</span>
                                 <div className="text-7xl font-black tracking-[0.2em] text-[#10B981]">8821</div>
                                 <p className="text-xs text-slate-400 font-medium mt-8 leading-relaxed max-w-sm mx-auto">
-                                    Provide this code to <span className="text-white">@{selectedTech.handle || "tech"}</span> only <span className="text-emerald-400 underline">after the service is complete</span> to authorize the blockchain entry.
+                                    Provide this code to <span className="text-white">@{selectedTech?.handle || "tech"}</span> only <span className="text-emerald-400 underline">after the service is complete</span> to authorize the blockchain entry.
                                 </p>
                             </div>
                             <div className="absolute top-[-10%] right-[-10%] w-64 h-64 bg-[#10B981]/10 rounded-full blur-[80px]" />

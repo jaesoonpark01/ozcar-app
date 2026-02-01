@@ -111,7 +111,7 @@ export default function OrderTrackingPage() {
                                 {status === 'AUDIT' && (
                                     <div className="space-y-6">
                                         <p className="text-slate-400 font-medium text-sm leading-relaxed italic">
-                                            "{t('order_audit_desc')}"
+                                            &quot;{t('order_audit_desc')}&quot;
                                         </p>
                                         <button
                                             onClick={() => setStatus('COMPLETED')}

@@ -12,7 +12,7 @@ export const MiningService = {
     },
 
     // Blockchain Mining (Real Integration)
-    async recordMaintenance(payload: any) {
+    async recordMaintenance(payload: { vin: string, ipfsHash: string, mileage: string | number }) {
         if (typeof window.ethereum === "undefined") throw new Error("MetaMask not installed");
         const provider = new ethers.BrowserProvider(window.ethereum);
         const signer = await provider.getSigner();
@@ -22,12 +22,15 @@ export const MiningService = {
         // 1. Try to find the tokenId for this VIN
         const vinHash = ethers.id(payload.vin);
         const allRegEvents = await nftContract.queryFilter(nftContract.filters.VehicleRegistered(), 0, 'latest');
-        const events = allRegEvents.filter((e: any) => ethers.id(e.args.vin) === vinHash);
+        const events = allRegEvents.filter((e: unknown) => {
+            const event = e as { args: { vin: string } };
+            return ethers.id(event.args.vin) === vinHash;
+        });
 
         let tx;
         if (events.length > 0) {
-            // @ts-ignore
-            const tokenId = events[0].args.tokenId;
+            const event = events[0] as unknown as { args: { tokenId: string } };
+            const tokenId = event.args.tokenId;
             // 2. Add maintenance record to existing NFT
             tx = await nftContract.addMaintenanceRecord(
                 tokenId,
@@ -80,12 +83,15 @@ export const MiningService = {
 
         const vinHash = ethers.id(vin);
         const allRegEvents = await nftContract.queryFilter(nftContract.filters.VehicleRegistered(), 0, 'latest');
-        const regEvents = allRegEvents.filter((e: any) => ethers.id(e.args.vin) === vinHash);
+        const regEvents = allRegEvents.filter((e: unknown) => {
+            const event = e as { args: { vin: string } };
+            return ethers.id(event.args.vin) === vinHash;
+        });
 
         if (regEvents.length === 0) return [];
 
-        // @ts-ignore
-        const tokenId = regEvents[0].args.tokenId;
+        const regEvent = regEvents[0] as unknown as { args: { tokenId: string, owner: string }, transactionHash: string, blockNumber: number };
+        const tokenId = regEvent.args.tokenId;
         const count = await nftContract.getMaintenanceHistoryCount(tokenId);
         const metadataUri = await nftContract.tokenURI(tokenId);
 
@@ -93,12 +99,11 @@ export const MiningService = {
         // Add Registration as first event
         history.push({
             type: "REGISTRATION",
-            // @ts-ignore
-            owner: regEvents[0].args.owner,
+            owner: regEvent.args.owner,
             vin: vin,
             tokenUri: metadataUri,
-            txHash: regEvents[0].transactionHash,
-            blockNumber: regEvents[0].blockNumber,
+            txHash: regEvent.transactionHash,
+            blockNumber: regEvent.blockNumber,
             timestamp: "Original Mint"
         });
 
