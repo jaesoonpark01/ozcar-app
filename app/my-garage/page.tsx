@@ -4,6 +4,7 @@
 import React, { useState, useEffect } from 'react';
 import MarketplaceLayout from '../../components/layout/MarketplaceLayout';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useWeb3 } from '../../components/Web3Provider';
 import { ethers } from 'ethers';
 import { useI18n } from '../../hooks/useI18n';
@@ -36,7 +37,7 @@ export default function MyGaragePage() {
                 const filter = vehicleNFT.filters.Transfer(null, account, null);
                 const events = await vehicleNFT.queryFilter(filter, 0, 'latest');
 
-                const tokenIds = [...new Set(events.map(e => (e as any).args.tokenId.toString()))];
+                const tokenIds = [...new Set(events.map(e => (e as unknown as { args: { tokenId: { toString: () => string } } }).args.tokenId.toString()))];
                 const ownedVehicles: VehicleNFTBox[] = [];
 
                 for (const tid of tokenIds) {
@@ -48,7 +49,7 @@ export default function MyGaragePage() {
                             // We can also query VehicleRegistered events for the VIN
                             const regFilter = vehicleNFT.filters.VehicleRegistered(tid, null, null);
                             const regEvents = await vehicleNFT.queryFilter(regFilter, 0, 'latest');
-                            const vin = regEvents.length > 0 ? (regEvents[0] as any).args.vin : "UNKNOWN-VIN";
+                            const vin = regEvents.length > 0 ? (regEvents[0] as unknown as { args: { vin: string } }).args.vin : "UNKNOWN-VIN";
 
                             ownedVehicles.push({
                                 tokenId: tid,
@@ -148,7 +149,13 @@ export default function MyGaragePage() {
                             </div>
 
                             <div className="aspect-[4/3] bg-slate-50 rounded-3xl overflow-hidden relative">
-                                <img src={car.image} className="w-full h-full object-cover group-hover:scale-105 transition-all duration-700" />
+                                <Image
+                                    src={car.image}
+                                    alt={car.model}
+                                    fill
+                                    className="object-cover group-hover:scale-105 transition-all duration-700"
+                                    unoptimized
+                                />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
                             </div>
 

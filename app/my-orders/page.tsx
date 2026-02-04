@@ -29,9 +29,15 @@ export default function MyOrdersPage() {
                 return;
             }
             try {
-                // Query EscrowCreated events for user as buyer
-                const filter = ozcarEscrow.filters.EscrowCreated(null, account, null, null, null);
-                const events = await ozcarEscrow.queryFilter(filter, 0, 'latest');
+                // 'buyer' is not indexed in the contract, so we must fetch all and filter in memory
+                const filter = ozcarEscrow.filters.EscrowCreated();
+                const allEvents = await ozcarEscrow.queryFilter(filter, 0, 'latest');
+
+                // Filter for events where current user is buyer
+                const events = allEvents.filter(e => {
+                    const args = (e as unknown as { args: { buyer: string } }).args;
+                    return args.buyer.toLowerCase() === account.toLowerCase();
+                });
 
                 const myOrders: Order[] = [];
                 for (const event of events) {

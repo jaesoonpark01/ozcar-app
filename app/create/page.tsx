@@ -61,7 +61,7 @@ export default function CreateListing() {
             router.push("/dashboard");
 
         } catch (error: unknown) {
-            const err = error as any;
+            const err = error as { code?: string | number; message?: string; reason?: string };
             console.error("Minting Error:", err);
             if (err.code === "ACTION_REJECTED") {
                 alert("Transaction rejected by user.");

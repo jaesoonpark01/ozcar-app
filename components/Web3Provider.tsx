@@ -77,6 +77,13 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
             setOzcarEscrow(escrow);
             setOzcarReputation(rep);
 
+            // Verify code exists at address before calling
+            const code = await signer.provider.getCode(addresses.OzcarToken);
+            if (code === "0x") {
+                console.error("No contract found at OzcarToken address. Network mismatch?");
+                return;
+            }
+
             // Fetch Balance & Detailed Reputation
             const [bal, stats] = await Promise.all([
                 token.balanceOf(address),

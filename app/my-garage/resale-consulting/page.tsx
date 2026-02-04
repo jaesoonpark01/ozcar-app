@@ -1,16 +1,11 @@
 "use client"
 
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import MarketplaceLayout from '../../../components/layout/MarketplaceLayout'
-import { TrendingUp, Calendar, Target, ArrowRight, ShieldCheck, Zap, BarChart3 } from 'lucide-react'
+import { TrendingUp, Calendar, Target, ArrowRight, ShieldCheck, Zap } from 'lucide-react'
 import Link from 'next/link'
 
 export default function ResaleConsultingPage() {
-    const [isLoading, setIsLoading] = useState(true)
-
-    useEffect(() => {
-        setTimeout(() => setIsLoading(false), 1000)
-    }, [])
 
     const forecastData = [
         { date: "2026.02", value: 4520, status: "PEAK" },
@@ -81,7 +76,7 @@ export default function ResaleConsultingPage() {
                             ))}
                         </div>
                         <div className="mt-10 p-4 bg-slate-50 rounded-2xl border border-slate-100 italic text-[11px] text-slate-500 leading-relaxed">
-                            "AI analyzes recent genuine-part service records and market momentum. A steep decline is expected after August 2026 due to the next major battery audit window."
+                            &quot;AI analyzes recent genuine-part service records and market momentum. A steep decline is expected after August 2026 due to the next major battery audit window.&quot;
                         </div>
                     </div>
                 </div>
@@ -110,7 +105,7 @@ export default function ResaleConsultingPage() {
                         </div>
                         <h3 className="text-xl font-black mb-2">Immutable Certificate</h3>
                         <p className="text-slate-400 text-xs leading-relaxed mb-6">
-                            Your vehicle's 'Digital Passport' is fully synced with the latest AI appraisal. 0xAuth proven.
+                            Your vehicle&apos;s &apos;Digital Passport&apos; is fully synced with the latest AI appraisal. 0xAuth proven.
                         </p>
                         <button className="w-full py-4 bg-white/5 border border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-all">
                             Download PDF Report

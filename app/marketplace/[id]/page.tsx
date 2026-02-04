@@ -8,6 +8,7 @@ import { MiningService } from '../../../services/miningService';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { ShieldCheck, Zap, Sparkles, AlertCircle, BarChart, Info, Star, Lock as LockIcon, ExternalLink } from 'lucide-react';
+import Image from 'next/image';
 
 const getVehicleBaseInfo = (id: string) => {
     return {
@@ -34,20 +35,15 @@ export default function VehicleDetailPage() {
     const params = useParams();
     const id = params?.id as string;
     const vehicle = React.useMemo(() => getVehicleBaseInfo(id), [id]);
-    const [history, setHistory] = useState<any[]>([]);
+    const [history, setHistory] = useState<{ type: string; timestamp: string; txHash: string }[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isUnlocked, setIsUnlocked] = useState(false);
-    const [valuationTier, setValuationTier] = useState<'LOW' | 'MED' | 'HIGH' | 'ELITE'>('MED');
 
     useEffect(() => {
         async function fetchHistory() {
             try {
                 const records = await MiningService.getVehicleHistory(vehicle.vin);
                 setHistory(records);
-
-                // Logic based valuation simulation
-                if (records.length > 3) setValuationTier('ELITE');
-                else if (records.length > 1) setValuationTier('HIGH');
             } catch (error) {
                 console.error("Failed to fetch history", error);
             } finally {
@@ -63,7 +59,13 @@ export default function VehicleDetailPage() {
                 {/* Left: Enhanced Visuals & Spec Grid */}
                 <div className="space-y-10">
                     <div className="rounded-[3rem] overflow-hidden shadow-2xl bg-slate-900 aspect-[4/3] relative group">
-                        <img src={vehicle.image} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" />
+                        <Image
+                            src={vehicle.image}
+                            alt={vehicle.model}
+                            fill
+                            className="object-cover group-hover:scale-105 transition-transform duration-1000"
+                            unoptimized
+                        />
                         <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent opacity-60" />
 
                         <div className="absolute top-8 left-8">
